@@ -1045,9 +1045,6 @@ void mel_cb(int ev, void *ev_data, void *arg) {
       AccessoryNotification(&ThermostatService,
                             &ThermostatCurrentTempCharacteristic);
     } break;
-    case MGOS_MEL_AC_EV_RX_COUNT:
-      LOG(LL_VERBOSE_DEBUG, ("rx_count: %d", *(size_t *) ev_data));
-      break;
     case MGOS_MEL_AC_EV_PACKET_READ_ERROR:
       LOG(LL_ERROR, ("error: packet crc"));
       break;
