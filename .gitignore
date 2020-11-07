@@ -1,0 +1,5 @@
+build/
+deps/
+.vscode/
+mos.yml.local
+mos.yml.public
