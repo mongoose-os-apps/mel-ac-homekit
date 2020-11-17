@@ -324,6 +324,15 @@ static void handleThermostatService() {
                         &ThermostatTargetTempCharacteristic);
 }
 
+static void handleThermostatServiceTargetState() {
+  //   AccessoryNotification(&ThermostatService,
+  //                         &ThermostatStatusActiveCharacteristic);
+  AccessoryNotification(&ThermostatService,
+                        &ThermostatCurrentHCstateCharacteristic);
+  AccessoryNotification(&ThermostatService,
+                        &ThermostatTargetTempCharacteristic);
+}
+
 HAP_RESULT_USE_CHECK
 HAPError HandleThermostatTargetHCstateWrite(
     HAPAccessoryServerRef *server,
@@ -357,7 +366,8 @@ HAPError HandleThermostatTargetHCstateWrite(
   mgos_mel_ac_set_mode(mode);
 
   handleFanService();
-  handleThermostatService();
+  handleThermostatServiceTargetState();  // do not update HCtarget state,
+                                         // because we just set it from HAP
   handleModeFanService();
   handleModeDryService();
 
