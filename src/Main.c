@@ -291,8 +291,7 @@ enum mgos_app_init_result mgos_app_init(void) {
     mgos_sys_config_set_debug_stderr_uart(-1);
     mgos_sys_config_set_mel_ac_enable(true);
     mgos_sys_config_save(&mgos_sys_config, false, NULL);
-    // if (!mgos_mel_ac_init()) 
-    mgos_system_restart(); // Its better to restart
+    mgos_system_restart();  // Its better to restart
   }
   LOG(LL_INFO, ("Starting services..."));
   /* MEL-AC events */

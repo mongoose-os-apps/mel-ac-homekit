@@ -209,16 +209,23 @@ HAPError HandleThermostatTargetTempWrite(
 }
 
 static uint8_t handleThermostatCurrentState() {
-  if (mgos_mel_ac_get_power() == MGOS_MEL_AC_PARAM_POWER_OFF)
+  if ((mgos_mel_ac_get_power() == MGOS_MEL_AC_PARAM_POWER_OFF) ||
+      (!mgos_mel_ac_get_operating()))
     return kHAPCharacteristicValue_CurrentHeatingCoolingState_Off;
 
+  float currentTemp = mgos_mel_ac_get_room_temperature();
+  float targetTemp = mgos_mel_ac_get_setpoint();
   switch (mgos_mel_ac_get_mode()) {
-    case MGOS_MEL_AC_PARAM_MODE_AUTO:
-      return 3;
     case MGOS_MEL_AC_PARAM_MODE_COOL:
       return kHAPCharacteristicValue_CurrentHeatingCoolingState_Cool;
     case MGOS_MEL_AC_PARAM_MODE_HEAT:
       return kHAPCharacteristicValue_CurrentHeatingCoolingState_Heat;
+    case MGOS_MEL_AC_PARAM_MODE_AUTO:
+      if (currentTemp > targetTemp)
+        return kHAPCharacteristicValue_CurrentHeatingCoolingState_Cool;
+      else if (currentTemp < targetTemp)
+        return kHAPCharacteristicValue_CurrentHeatingCoolingState_Heat;
+      // all other cases = off
     case MGOS_MEL_AC_PARAM_MODE_FAN:
     case MGOS_MEL_AC_PARAM_MODE_DRY:
     default:
@@ -1011,6 +1018,10 @@ void mel_cb(int ev, void *ev_data, void *arg) {
       break;
     case MGOS_MEL_AC_EV_OPERATING_CHANGED:
       LOG(LL_INFO, ("opeating: %s", *(bool *) ev_data ? "true" : "false"));
+      if (!accessoryConfiguration.server) goto hap_not_running;
+
+      AccessoryNotification(&ThermostatService,
+                            &ThermostatCurrentHCstateCharacteristic);
       break;
     case MGOS_MEL_AC_EV_PARAMS_SET:
       LOG(LL_INFO, ("new params aplied to HVAC"));

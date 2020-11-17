@@ -1,6 +1,6 @@
 author: 'd4rkmen'
 description: MEL-AC HomeKit for Mongoose OS
-version: 1.0.0
+version: 1.0.1
 
 libs_version: ${mos.version}
 modules_version: ${mos.version}
@@ -59,6 +59,7 @@ config_schema:
 libs:
   - origin: https://github.com/mongoose-os-libs/http-server
   - origin: https://github.com/mongoose-os-libs/homekit-adk
+    version: master
   - origin: https://github.com/mongoose-os-libs/rpc-service-config
   - origin: https://github.com/mongoose-os-libs/rpc-ws
   - origin: https://github.com/d4rkmen/wifi-setup
