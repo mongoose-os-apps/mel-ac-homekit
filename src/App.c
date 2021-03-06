@@ -225,6 +225,8 @@ static uint8_t handleThermostatCurrentState() {
         return kHAPCharacteristicValue_CurrentHeatingCoolingState_Cool;
       else if (currentTemp < targetTemp)
         return kHAPCharacteristicValue_CurrentHeatingCoolingState_Heat;
+      else 
+        return kHAPCharacteristicValue_CurrentHeatingCoolingState_Off;
       // all other cases = off
     case MGOS_MEL_AC_PARAM_MODE_FAN:
     case MGOS_MEL_AC_PARAM_MODE_DRY:
