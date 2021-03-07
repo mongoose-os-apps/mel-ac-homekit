@@ -12,6 +12,8 @@
 #include "mgos_mel_ac.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool requestedFactoryReset = false;
+bool clearPairings = false;
 
 /**
  * Domain used in the key value store for application data.

@@ -42,6 +42,8 @@ config_schema:
   - ["pins", "o", {title: "Pins layout"}]
   - ["pins.led", "i", -1, {title: "LED GPIO pin"}]
   - ["pins.button", "i", -1, {title: "Button GPIO pin"}]
+  - ["pins.button_hold_ms", "i", 5000, {title: "Button hold time for reset"}]
+  - ["pins.button_pull_up", "b", true, {title: "Button pull up or down"}]
   - ["wifi.ap.enable", true]
   - ["wifi.sta.enable", false]
   - ["wifi.ap.ssid", "MEL-????"]

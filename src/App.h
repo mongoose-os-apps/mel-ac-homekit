@@ -19,6 +19,9 @@ extern "C" {
 #pragma clang assume_nonnull begin
 #endif
 
+extern bool requestedFactoryReset;
+extern bool clearPairings;
+
 /**
  * Identify routine. Used to locate the accessory.
  */

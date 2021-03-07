@@ -23,9 +23,7 @@
 #include "mgos_dns_sd.h"
 #include "mgos_hap.h"
 #include "mgos_mel_ac.h"
-
-static bool requestedFactoryReset = false;
-static bool clearPairings = false;
+#include "reset_btn.h"
 
 #define MAX_NUM_SESSIONS 16
 
@@ -333,6 +331,8 @@ enum mgos_app_init_result mgos_app_init(void) {
   }
 
   mgos_hap_add_rpc_service(&accessoryServer, AppGetAccessoryInfo());
+  
+  mgos_mel_ac_reset_button_init();
 
   return MGOS_APP_INIT_SUCCESS;
 }
