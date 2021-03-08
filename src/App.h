@@ -19,9 +19,6 @@ extern "C" {
 #pragma clang assume_nonnull begin
 #endif
 
-extern bool requestedFactoryReset;
-extern bool clearPairings;
-
 /**
  * Identify routine. Used to locate the accessory.
  */
@@ -296,6 +293,8 @@ HAPAccessory *AppGetAccessoryInfo();
 void wifi_rpc_start(void);
 
 void mel_cb(int ev, void *ev_data, void *arg);
+
+void mgos_hap_reset(void *arg);
 
 #if __has_feature(nullability)
 #pragma clang assume_nonnull end

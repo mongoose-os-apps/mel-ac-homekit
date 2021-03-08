@@ -27,8 +27,8 @@ static mgos_timer_id s_hold_timer = MGOS_INVALID_TIMER_ID;
 void factory_reset(void) {
     LOG(LL_INFO, ("Resetting to factory defaults"));
     mgos_config_reset(MGOS_CONFIG_LEVEL_USER);
-    requestedFactoryReset = true;   
     mgos_gpio_write(mgos_sys_config_get_pins_led(), LED_ON);
+    mgos_hap_reset(NULL);
     mgos_system_restart_after(500);
 }
 

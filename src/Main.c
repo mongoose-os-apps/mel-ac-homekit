@@ -25,6 +25,9 @@
 #include "mgos_mel_ac.h"
 #include "reset_btn.h"
 
+static bool requestedFactoryReset;
+static bool clearPairings;
+
 #define MAX_NUM_SESSIONS 16
 
 #define PREFERRED_ADVERTISING_INTERVAL \
@@ -201,6 +204,7 @@ void HandleUpdatedState(HAPAccessoryServerRef *_Nonnull server,
 
     requestedFactoryReset = false;
 
+    
     // Re-initialize App.
     AppCreate(server, &platform.keyValueStore);
 

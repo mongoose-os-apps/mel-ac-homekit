@@ -12,9 +12,6 @@
 #include "mgos_mel_ac.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool requestedFactoryReset = false;
-bool clearPairings = false;
-
 /**
  * Domain used in the key value store for application data.
  *
@@ -227,7 +224,7 @@ static uint8_t handleThermostatCurrentState() {
         return kHAPCharacteristicValue_CurrentHeatingCoolingState_Cool;
       else if (currentTemp < targetTemp)
         return kHAPCharacteristicValue_CurrentHeatingCoolingState_Heat;
-      else 
+      else
         return kHAPCharacteristicValue_CurrentHeatingCoolingState_Off;
       // all other cases = off
     case MGOS_MEL_AC_PARAM_MODE_FAN:
@@ -795,9 +792,9 @@ HAPError HandleFanTargetStateRead(
     void *_Nullable context HAP_UNUSED) {
   *value = mgos_mel_ac_get_power() == MGOS_MEL_AC_PARAM_POWER_OFF
                ? kHAPCharacteristicValue_TargetFanState_Manual
-               : mgos_mel_ac_get_fan() == MGOS_MEL_AC_PARAM_FAN_AUTO
-                     ? kHAPCharacteristicValue_TargetFanState_Auto
-                     : kHAPCharacteristicValue_TargetFanState_Manual;
+           : mgos_mel_ac_get_fan() == MGOS_MEL_AC_PARAM_FAN_AUTO
+               ? kHAPCharacteristicValue_TargetFanState_Auto
+               : kHAPCharacteristicValue_TargetFanState_Manual;
   HAPLogInfo(&kHAPLog_Default, "%s: %d", __func__, *value);
 
   return kHAPError_None;
@@ -1084,4 +1081,26 @@ hap_not_running:
   LOG(LL_WARN, ("HAP server is not running, skipping accessory update"));
 
   (void) ev_data;
+}
+
+void mgos_hap_reset(void *arg) {
+  switch (HAPAccessoryServerGetState(accessoryConfiguration.server)) {
+    case kHAPAccessoryServerState_Running:
+      LOG(LL_INFO, ("Stopping server for reset"));
+      HAPAccessoryServerStop(accessoryConfiguration.server);
+      // fallthrough
+    case kHAPAccessoryServerState_Stopping:
+      // Wait some more.
+      mgos_set_timer(100, 0, mgos_hap_reset, NULL);
+      break;
+    case kHAPAccessoryServerState_Idle: {
+      HAPError err = kHAPError_None;
+      LOG(LL_INFO, ("Resetting HAP server"));
+      err = HAPRestoreFactorySettings(accessoryConfiguration.keyValueStore);
+      if (err != kHAPError_None) {
+        LOG(LL_ERROR, ("HAP server reset error (code: %ld)", (long) err));
+      }
+    }
+  }
+  (void) arg;
 }
