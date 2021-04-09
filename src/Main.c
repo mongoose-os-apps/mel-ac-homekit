@@ -80,6 +80,38 @@ extern void AccessoryServerHandleUpdatedState(HAPAccessoryServerRef *server,
 /* WiFi last event*/
 static int wifi_state = MGOS_WIFI_EV_STA_DISCONNECTED;
 
+static void wifi_timer_cb(void *arg) {
+  int on_ms = 0, off_ms = 0;
+  switch (wifi_state) {
+    case MGOS_WIFI_EV_STA_DISCONNECTED: {
+      on_ms = 500, off_ms = 500;
+      break;
+    }
+    case MGOS_WIFI_EV_STA_CONNECTING: {
+      on_ms = 50, off_ms = 950;
+      break;
+    }
+    case MGOS_WIFI_EV_STA_CONNECTED: {
+      on_ms = 0, off_ms = 0;
+      break;
+    }
+    case MGOS_WIFI_EV_STA_IP_ACQUIRED: {
+      on_ms = 0, off_ms = 0;
+      break;
+    }
+    case MGOS_WIFI_EV_AP_STA_CONNECTED: {
+      on_ms = 100, off_ms = 100;
+      break;
+    }
+    case MGOS_WIFI_EV_AP_STA_DISCONNECTED: {
+      on_ms = 500, off_ms = 500;
+      break;
+    }
+  }
+  mgos_gpio_blink(mgos_sys_config_get_pins_led(), on_ms, off_ms);
+  (void) arg;
+}
+
 static void net_cb(int ev, void *evd, void *arg) {
   switch (ev) {
     case MGOS_NET_EV_DISCONNECTED:
@@ -271,7 +303,6 @@ void HandleUpdatedState(HAPAccessoryServerRef *_Nonnull server,
 
     requestedFactoryReset = false;
 
-    
     // Re-initialize App.
     AppCreate(server, &platform.keyValueStore);
 
@@ -356,8 +387,10 @@ enum mgos_app_init_result mgos_app_init(void) {
   if (!mgos_sys_config_get_mel_ac_enable()) {
     LOG(LL_INFO, ("Updating config..."));
     /* Config */
-    mgos_sys_config_set_debug_stdout_uart(-1);
-    mgos_sys_config_set_debug_stderr_uart(-1);
+    if (mgos_sys_config_get_mel_ac_uart_no() == 0) {
+      mgos_sys_config_set_debug_stdout_uart(-1);
+      mgos_sys_config_set_debug_stderr_uart(-1);
+    }
     mgos_sys_config_set_mel_ac_enable(true);
     mgos_sys_config_save(&mgos_sys_config, false, NULL);
     mgos_system_restart();  // Its better to restart
@@ -411,5 +444,8 @@ enum mgos_app_init_result mgos_app_init(void) {
 #ifdef MGOS_HAVE_WIFI
   mgos_event_add_group_handler(MGOS_EVENT_GRP_WIFI, wifi_cb, NULL);
 #endif
+
+  mgos_set_timer(1000, MGOS_TIMER_REPEAT, wifi_timer_cb, NULL);
+
   return MGOS_APP_INIT_SUCCESS;
 }
