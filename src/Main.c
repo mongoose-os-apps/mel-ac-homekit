@@ -379,6 +379,7 @@ enum mgos_app_init_result mgos_app_init(void) {
   /* LED */
   mgos_gpio_set_mode(mgos_sys_config_get_pins_led(), MGOS_GPIO_MODE_OUTPUT);
   mgos_gpio_write(mgos_sys_config_get_pins_led(), LED_OFF);
+  mgos_set_timer(1000, MGOS_TIMER_REPEAT, wifi_timer_cb, NULL);
   /* Captive */
   if (mgos_sys_config_get_wifi_ap_enable()) {
     LOG(LL_WARN, ("Runing captive portal to setup WiFi"));
@@ -445,7 +446,6 @@ enum mgos_app_init_result mgos_app_init(void) {
   mgos_event_add_group_handler(MGOS_EVENT_GRP_WIFI, wifi_cb, NULL);
 #endif
 
-  mgos_set_timer(1000, MGOS_TIMER_REPEAT, wifi_timer_cb, NULL);
 
   return MGOS_APP_INIT_SUCCESS;
 }

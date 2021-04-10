@@ -1,6 +1,6 @@
 author: 'd4rkmen'
 description: MEL-AC HomeKit for Mongoose OS
-version: 1.0.1
+version: 1.0.2
 
 libs_version: ${mos.version}
 modules_version: ${mos.version}
