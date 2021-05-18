@@ -1,6 +1,6 @@
 author: 'd4rkmen'
 description: MEL-AC HomeKit for Mongoose OS
-version: 1.0.2
+version: 1.0.3
 
 libs_version: ${mos.version}
 modules_version: ${mos.version}
@@ -49,7 +49,7 @@ config_schema:
   - ["wifi.ap.ssid", "MEL-????"]
   - ["wifi.ap.pass", "macdrive"]
   - ["mel_ac.enable", false]
-  - ["mel_ac.uart_no", 0]
+  - ["mel_ac.uart_no", 2]
   - ["mel_ac.uart_baud_rate", 2400]
   - ["mel_ac.period_ms", 250]
   - ["mel_ac.rpc_enable", true]

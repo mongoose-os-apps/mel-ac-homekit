@@ -208,8 +208,7 @@ HAPError HandleThermostatTargetTempWrite(
 }
 
 static uint8_t handleThermostatCurrentState() {
-  if ((mgos_mel_ac_get_power() == MGOS_MEL_AC_PARAM_POWER_OFF) ||
-      (!mgos_mel_ac_get_operating()))
+  if (mgos_mel_ac_get_power() == MGOS_MEL_AC_PARAM_POWER_OFF)
     return kHAPCharacteristicValue_CurrentHeatingCoolingState_Off;
 
   float currentTemp = mgos_mel_ac_get_room_temperature();
