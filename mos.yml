@@ -61,7 +61,6 @@ config_schema:
 libs:
   - origin: https://github.com/mongoose-os-libs/http-server
   - origin: https://github.com/mongoose-os-libs/homekit-adk
-    version: master
   - origin: https://github.com/mongoose-os-libs/rpc-service-config
   - origin: https://github.com/mongoose-os-libs/rpc-ws
   - origin: https://github.com/d4rkmen/wifi-setup
