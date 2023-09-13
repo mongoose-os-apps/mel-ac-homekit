@@ -204,7 +204,7 @@ const HAPUInt8Characteristic ThermostatTargetHCstateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 3},
+    .constraints = {.minimumValue = 0, .maximumValue = 3, .stepValue = 1},
     .callbacks = {.handleRead = HandleThermostatTargetHCstateRead,
                   .handleWrite = HandleThermostatTargetHCstateWrite}};
 
