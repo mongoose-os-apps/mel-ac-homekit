@@ -134,7 +134,13 @@ const HAPFloatCharacteristic ThermostatCurrentTempCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 100, .stepValue = 0.5},
+    .units = kHAPCharacteristicUnits_Celsius,
+    .constraints =
+        {
+            .minimumValue = -50.0,
+            .maximumValue = +50.0,
+            .stepValue = 0.1,
+        },
     .callbacks = {.handleRead = HandleThermostatCurrentTempRead,
                   .handleWrite = NULL}};
 
@@ -156,9 +162,10 @@ const HAPFloatCharacteristic ThermostatTargetTempCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
+    .units = kHAPCharacteristicUnits_Celsius,
     .constraints = {.minimumValue = 16.0,
                     .maximumValue = 31.0,
-                    .stepValue = 1.0},
+                    .stepValue = 0.5},
     .callbacks = {.handleRead = HandleThermostatTargetTempRead,
                   .handleWrite = HandleThermostatTargetTempWrite}};
 
@@ -181,7 +188,12 @@ const HAPUInt8Characteristic ThermostatCurrentHCstateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 3},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 2,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleThermostatCurrentHCstateRead,
                   .handleWrite = NULL}};
 
@@ -204,7 +216,12 @@ const HAPUInt8Characteristic ThermostatTargetHCstateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 3, .stepValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 3,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleThermostatTargetHCstateRead,
                   .handleWrite = HandleThermostatTargetHCstateWrite}};
 
@@ -227,7 +244,12 @@ const HAPUInt8Characteristic ThermostatTemperatureDisplayUnitsCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleThermostatTemperatureDisplayUnitsRead,
                   .handleWrite = HandleThermostatTemperatureDisplayUnitsWrite}};
 
@@ -269,8 +291,7 @@ HAPService ThermostatService = {
         &ThermostatCurrentTempCharacteristic,
         &ThermostatTargetTempCharacteristic,
         &ThermostatTemperatureDisplayUnitsCharacteristic,
-        &ThermostatStatusActiveCharacteristic,
-        NULL}};
+        &ThermostatStatusActiveCharacteristic, NULL}};
 
 // VaneVert service
 
@@ -334,7 +355,12 @@ const HAPUInt8Characteristic VaneVertCurrentSateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 2},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 2,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleVaneVertCurrentStateRead,
                   .handleWrite = NULL}};
 
@@ -356,7 +382,12 @@ const HAPUInt8Characteristic VaneVertTypeCharacteristic = {
                            .supportsDisconnectedNotification = false,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleVaneVertTypeRead, .handleWrite = NULL}};
 
 const HAPIntCharacteristic VaneVertCurrentTiltAngleCharacteristic = {
@@ -377,6 +408,7 @@ const HAPIntCharacteristic VaneVertCurrentTiltAngleCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
+    .units = kHAPCharacteristicUnits_ArcDegrees,
     .constraints = {.minimumValue = -90, .maximumValue = 90, .stepValue = 1},
     .callbacks = {.handleRead = HandleVaneVertCurrentTiltAngleRead,
                   .handleWrite = NULL}};
@@ -399,6 +431,7 @@ const HAPIntCharacteristic VaneVertTargetTiltAngleCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
+    .units = kHAPCharacteristicUnits_ArcDegrees,
     .constraints = {.minimumValue = -90, .maximumValue = 90, .stepValue = 45},
     .callbacks = {.handleRead = HandleVaneVertTargetTiltAngleRead,
                   .handleWrite = HandleVaneVertTargetTiltAngleWrite}};
@@ -421,7 +454,12 @@ const HAPUInt8Characteristic VaneVertSwingModeCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleVaneVertSwingModeRead,
                   .handleWrite = HandleVaneVertSwingModeWrite}};
 
@@ -524,7 +562,12 @@ const HAPUInt8Characteristic VaneHorizCurrentSateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 2},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 2,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleVaneHorizCurrentStateRead,
                   .handleWrite = NULL}};
 
@@ -546,7 +589,12 @@ const HAPUInt8Characteristic VaneHorizTypeCharacteristic = {
                            .supportsDisconnectedNotification = false,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleVaneHorizTypeRead, .handleWrite = NULL}};
 
 const HAPIntCharacteristic VaneHorizCurrentTiltAngleCharacteristic = {
@@ -567,6 +615,7 @@ const HAPIntCharacteristic VaneHorizCurrentTiltAngleCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
+    .units = kHAPCharacteristicUnits_ArcDegrees,
     .constraints = {.minimumValue = -90, .maximumValue = 90, .stepValue = 1},
     .callbacks = {.handleRead = HandleVaneHorizCurrentTiltAngleRead,
                   .handleWrite = NULL}};
@@ -589,6 +638,7 @@ const HAPIntCharacteristic VaneHorizTargetTiltAngleCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
+    .units = kHAPCharacteristicUnits_ArcDegrees,
     .constraints = {.minimumValue = -90, .maximumValue = 90, .stepValue = 45},
     .callbacks = {.handleRead = HandleVaneHorizTargetTiltAngleRead,
                   .handleWrite = HandleVaneHorizTargetTiltAngleWrite}};
@@ -611,7 +661,12 @@ const HAPUInt8Characteristic VaneHorizSwingModeCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleVaneHorizSwingModeRead,
                   .handleWrite = HandleVaneHorizSwingModeWrite}};
 
@@ -714,7 +769,12 @@ const HAPUInt8Characteristic FanActiveCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleFanActiveRead,
                   .handleWrite = HandleFanActiveWrite}};
 
@@ -736,7 +796,12 @@ const HAPUInt8Characteristic FanCurrentSateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 2},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 2,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleFanCurrentStateRead,
                   .handleWrite = NULL}};
 
@@ -758,7 +823,12 @@ const HAPUInt8Characteristic FanTargetSateCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
-    .constraints = {.minimumValue = 0, .maximumValue = 1},
+    .units = kHAPCharacteristicUnits_None,
+    .constraints = {.minimumValue = 0,
+                    .maximumValue = 1,
+                    .stepValue = 1,
+                    .validValues = NULL,
+                    .validValuesRanges = NULL},
     .callbacks = {.handleRead = HandleFanTargetStateRead,
                   .handleWrite = HandleFanTargetStateWrite}};
 
@@ -780,6 +850,7 @@ const HAPFloatCharacteristic FanRotationSpeedCharacteristic = {
                            .supportsDisconnectedNotification = true,
                            .readableWithoutSecurity = false,
                            .writableWithoutSecurity = false}},
+    .units = kHAPCharacteristicUnits_Percentage,
     .constraints = {.minimumValue = 0.0,
                     .maximumValue = 100.0,
                     .stepValue = 25.0},

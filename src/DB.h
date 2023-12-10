@@ -61,8 +61,6 @@ extern HAPService ModeDryService;
 extern const HAPBoolCharacteristic ModeDryStatusActiveCharacteristic;
 extern const HAPBoolCharacteristic ModeDryOnCharacteristic;
 
-// extern HAPService VaneVertService;
-
 #if __has_feature(nullability)
 #pragma clang assume_nonnull end
 #endif
