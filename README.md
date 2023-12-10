@@ -76,6 +76,10 @@ Configuration:
 
 Index page for Web GUI holding the device information and factory reset feature
 
+## Known issues
+
+`ESP32` platform works well with `mos` tool `2.19.1`, but not with newer. The issue is related to UART driver and still under investigation
+
 ## Copyrights
 
  * [d4rkmen](https://github.com/d4rkmen)
